@@ -9,6 +9,12 @@ Why RoBERTa (Encoder-only) over decoder LLMs:
 2. ~355M params = full finetune possible, no LoRA needed
 3. Much faster training and inference
 4. More stable with noisy CoT solutions
+
+Input : ./verifier_data/train_k5.json, ./verifier_data/eval_k5.json
+Output: ./verifier_RoBERTa (loaded by src/evaluation/*.py)
+
+Usage (from the repository root):
+    python src/verifier/train_verifier.py
 """
 
 import torch
@@ -40,7 +46,7 @@ SEED = 42
 BASE_MODEL = "roberta-large"                    # ~355M params, strong encoder
 
 DATA_DIR = "./verifier_data"
-OUTPUT_DIR = "./verifier_deberta"
+OUTPUT_DIR = "./verifier_RoBERTa"
 MAX_LENGTH = 512  # RoBERTa handles this well
 
 LEARNING_RATE = 2e-5  # Lower LR for full finetune (no LoRA)

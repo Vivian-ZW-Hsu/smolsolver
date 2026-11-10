@@ -2,6 +2,22 @@
 """
 Classify questions by margin (r1 - r2)
 ======================================
+Splits the 1,319 GSM8K test problems into high / medium / low consensus
+groups using the 15 sampled solutions per problem.
+
+  r1     = frequency of the most common predicted answer (out of 15)
+  r2     = frequency of the second most common predicted answer
+  margin = r1 - r2
+
+Thresholds are the 33rd / 66th percentiles of the margin distribution
+(tau_low, tau_high); they are computed from the data, not learned.
+
+Input : ./test_k15.json            (from src/generator/sample_test_solutions.py)
+Output: ./results/group_{high,medium,low}.json, ./results/classify_metadata.json
+
+Usage (from the repository root):
+    python src/analysis/classify_by_margin.py
+"""
 
 import json
 import numpy as np
@@ -12,7 +28,7 @@ from collections import Counter
 # Configuration
 # ============================================================================
 INPUT_PATH = "./test_k15.json"
-OUTPUT_DIR = "./"
+OUTPUT_DIR = "./results/"
 
 # ============================================================================
 # Helper Functions

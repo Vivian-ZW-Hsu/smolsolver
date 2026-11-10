@@ -9,7 +9,15 @@ Data splits:
 - Training: 2000 questions (indices 0-1999) with k=1,3,5,7 solutions each
 - Evaluation: 500 questions (indices 2000-2499) with k=1,3,5,7 solutions each
 
-k=1 uses greedy decoding, k>1 uses sampling (temperature=0.7, top_p=0.95, top_k=50)
+main() samples k=7 solutions per question (temperature=0.7, top_p=0.95,
+top_k=50, max 96 new tokens) and saves the first 1/3/5 of them as the
+k=1/3/5 files. (generate_k_solutions() would use greedy decoding for k=1,
+but main() only calls it with k=7, so every saved solution is sampled.)
+
+Output: ./verifier_data/{train,eval}_k{1,3,5,7}.json
+
+Usage (from the repository root):
+    python src/verifier/generate_verifier_data.py
 """
 
 import torch

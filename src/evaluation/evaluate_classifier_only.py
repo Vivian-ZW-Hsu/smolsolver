@@ -1,10 +1,18 @@
 #!/usr/bin/env python3
 """
-Evaluate G+V methods on classified groups
-=========================================
+Evaluate G+V methods on classified groups (classifier only)
+===========================================================
+Earlier evaluation that uses only the binary classifier (no ranker) and
+consumes the 15 samples in incremental batches of 5:
 (i)   Generator-only Majority Vote (incremental batches)
 (ii)  G+V Top-Score Selection
 (iii) G+V Weighted Majority Vote
+
+Superseded by src/evaluation/evaluate_selectors.py, which evaluates all
+7 methods on all 15 samples. Its output file is not included in this repo.
+
+Usage (from the repository root):
+    python src/evaluation/evaluate_classifier_only.py
 """
 
 import torch
@@ -19,7 +27,7 @@ import numpy as np
 # ============================================================================
 # Configuration
 # ============================================================================
-GROUP_DIR = "./"
+GROUP_DIR = "./results/"
 GROUP_FILES = {
     "high": "group_high.json",
     "medium": "group_medium.json",
@@ -28,7 +36,7 @@ GROUP_FILES = {
 METADATA_FILE = "classify_metadata.json"
 
 VERIFIER_PATH = "./verifier_RoBERTa"
-OUTPUT_PATH = "./eval_results.json"
+OUTPUT_PATH = "./results/classifier_only_eval_results.json"
 
 # Verifier threshold
 CLASSIFIER_THRESHOLD = 0.5

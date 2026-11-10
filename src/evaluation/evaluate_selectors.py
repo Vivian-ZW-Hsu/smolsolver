@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 """
-Evaluate Ranker vs Classifier on test_k15.json
-==============================================
+Evaluate 7 answer-selection methods on the GSM8K test set
+=========================================================
+Reads the consensus group files (1,319 test problems x 15 sampled solutions)
+and writes ./results/ranker_eval_results.json.
+
+Usage (from the repository root):
+    python src/evaluation/evaluate_selectors.py
 
 Compare:
 - (i)    Generator-only Majority Vote
@@ -26,14 +31,14 @@ import numpy as np
 # ============================================================================
 # Configuration
 # ============================================================================
-GROUP_HIGH = "./group_high.json"
-GROUP_MEDIUM = "./group_medium.json"
-GROUP_LOW = "./group_low.json"
+GROUP_HIGH = "./results/group_high.json"
+GROUP_MEDIUM = "./results/group_medium.json"
+GROUP_LOW = "./results/group_low.json"
 
 CLASSIFIER_PATH = "./verifier_RoBERTa"
 RANKER_PATH = "./ranker_roberta"
 
-OUTPUT_PATH = "./ranker_eval_results.json"
+OUTPUT_PATH = "./results/ranker_eval_results.json"
 
 # Classifier threshold for G+V methods
 CLASSIFIER_THRESHOLD = 0.5
@@ -59,7 +64,7 @@ class RoBERTaRanker(nn.Module):
     Architecture (must match training script exactly):
     - RoBERTa encoder (via AutoModel)
     - Mean pooling over sequence
-    - Linear projection to scalar score
+    - MLP head (Linear -> GELU -> Linear) to a scalar score
     """
     def __init__(self, model_name="roberta-large"):
         super().__init__()

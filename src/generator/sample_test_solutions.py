@@ -2,6 +2,13 @@
 """
 Generate K=15 solutions for GSM8K TEST set (Batch Version)
 ===========================================================
+Samples 15 solutions per test problem (temperature 0.7, top-p 0.9,
+max 256 new tokens) from the fine-tuned generator and writes
+./test_k15.json (not included in the repo; the same samples are stored,
+split by consensus group, in results/group_*.json).
+
+Usage (from the repository root):
+    python src/generator/sample_test_solutions.py
 """
 
 import torch
@@ -313,7 +320,7 @@ def main():
     log(f"Correct solutions: {correct_solutions} ({100*correct_solutions/total_solutions:.1f}%)")
     log("=" * 60)
     log(f"Output saved to: {OUTPUT_PATH}")
-    log("Ready for evaluation with evaluate_gv_v2.py")
+    log("Next step: python src/analysis/classify_by_margin.py")
 
 if __name__ == "__main__":
     main()

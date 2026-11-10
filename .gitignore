@@ -4,12 +4,16 @@
 .DS_Store
 __pycache__/
 .ipynb_checkpoints/
+.venv/
 
 # =============================================
-# Model checkpoints (DO NOT upload to GitHub)
+# Model checkpoints (written to the repo root; DO NOT upload to GitHub)
 # =============================================
+generator_ovm/
+generator_checkpoints/
 generator_checkpoint/
 verifier_RoBERTa/
+verifier_deberta/
 ranker_roberta/
 
 # =============================================

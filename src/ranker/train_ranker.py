@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-DeBERTa Ranker Training Script (Pairwise Margin Ranking)
+RoBERTa Ranker Training Script (Pairwise Margin Ranking)
 =========================================================
-Train DeBERTa-v3-base to RANK math solutions, not just classify.
+Train RoBERTa-large to RANK math solutions, not just classify.
 
 Key differences from classifier:
 1. Uses Margin Ranking Loss instead of Cross-Entropy
@@ -10,8 +10,18 @@ Key differences from classifier:
 3. Outputs a single score per solution (not class probabilities)
 4. Optimized for ranking, not classification
 
-This should perform better on Low consensus group where
-we need to distinguish between multiple plausible wrong answers.
+Motivating hypothesis: a ranker should help most on the low-consensus
+group, where several plausible wrong answers compete. On the GSM8K test set
+it did not clearly help there: ranker-weighted voting beat majority vote on
+the low group by 1 of 417 problems, and ranker top-1 was below classifier
+top-1 (see results/ranker_eval_results.json).
+
+Input : ./verifier_data/train_k7.json, ./verifier_data/eval_k7.json
+Output: ./ranker_roberta (ranker_model.pt + tokenizer, loaded by
+        src/evaluation/evaluate_selectors.py)
+
+Usage (from the repository root):
+    python src/ranker/train_ranker.py
 """
 
 import torch
@@ -80,7 +90,7 @@ class RoBERTaRanker(nn.Module):
     Architecture:
     - RoBERTa encoder
     - Mean pooling over sequence
-    - Linear projection to scalar score
+    - MLP head (Linear -> GELU -> Linear) to a scalar score
     """
     def __init__(self, model_name):
         super().__init__()
@@ -389,7 +399,7 @@ def train_epoch(model, dataloader, optimizer, scheduler, device, margin, scaler)
 # ============================================================================
 def main():
     log("=" * 60)
-    log("DeBERTa Ranker Training (Pairwise Margin Ranking)")
+    log("RoBERTa Ranker Training (Pairwise Margin Ranking)")
     log("=" * 60)
 
     log(f"PyTorch version: {torch.__version__}")

@@ -2,9 +2,12 @@
 """
 Generator Evaluation Script
 ============================
-Evaluate the trained Phi-2 + LoRA generator on GSM8K validation set.
+Evaluate the trained Phi-2 + LoRA generator on the GSM8K validation split
+(10% of the GSM8K train set held out by train_generator.py, seed 42),
+with greedy decoding (Pass@1).
 
-Usage: python eval_generator.py
+Usage (from the repository root):
+    python src/generator/eval_generator.py
 """
 
 import torch
@@ -20,6 +23,7 @@ from tqdm import tqdm
 # ============================================================================
 BASE_MODEL = "microsoft/phi-2"
 ADAPTER_PATH = "./generator_ovm"
+OUTPUT_PATH = "./results/generator_eval_results.json"
 SEED = 42
 
 # ============================================================================
@@ -176,9 +180,9 @@ def main():
         "invalid_format": invalid_format
     }
 
-    with open("eval_results.json", "w") as f:
+    with open(OUTPUT_PATH, "w") as f:
         json.dump(results, f, indent=2)
-    print("\nResults saved to eval_results.json")
+    print(f"\nResults saved to {OUTPUT_PATH}")
 
 
 if __name__ == "__main__":

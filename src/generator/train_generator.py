@@ -5,6 +5,9 @@ Generator Training Script (Phi-2 + QLoRA)
 Train Phi-2 with LoRA on GSM8K for math reasoning.
 
 Output: ./generator_ovm (LoRA adapter + tokenizer)
+
+Usage (from the repository root):
+    python src/generator/train_generator.py
 """
 
 import torch
