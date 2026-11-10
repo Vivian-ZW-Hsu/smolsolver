@@ -172,4 +172,4 @@ Generator-only Pass@k (%) for the other data splits, from the original project R
 
 ---
 
-NYU course project, Fall 2025. Data: [GSM8K](https://github.com/openai/grade-school-math) (Cobbe et al., 2021).
+Data: [GSM8K](https://github.com/openai/grade-school-math) (Cobbe et al., 2021).
